@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const LostNListForm = () => {
+const NewPost = () => {
 
         return (
             <div>
@@ -9,4 +9,4 @@ const LostNListForm = () => {
         );
     }
 
-export default LostNListForm;
+export default NewPost;
