@@ -1,11 +1,16 @@
 import { Route, Routes } from 'react-router-dom';
 import MainPage from './components/MainPage';
+import NewPost from './components/NewPost';
 
 function App() {
+
+  const [lostNListed, setLostNListed] = ([]);
+
   return (
     <div className="App">
       <Routes>
         <Route path="/" element={<MainPage/>}/>
+        <Route path="/posts/new" element={<NewPost/>}/>
       </Routes>
     </div>
   );
