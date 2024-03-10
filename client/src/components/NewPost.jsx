@@ -79,11 +79,19 @@ const NewPost = () => {
                             <input type="text" name="zipcode" value={lostNlistedForm.zipcode} onChange={changeHandler} className="form-control" />
                             {errors.zipcode && <div className='text-danger'>{errors.zipcode.message}</div>}
                         </div>
-                        <div className="mb-3">
-                            <label className="form-label">Price:</label>
-                            <input type="number" name="price" value={lostNlistedForm.price} onChange={changeHandler} className="form-control" disabled={isPriceDisabled} />
-                            {errors.price && <div className='text-danger'>{errors.price.message}</div>}
-                        </div>
+                        {!isPriceDisabled &&
+                            <div className="mb-3">
+                                <label className="form-label">Price:</label>
+                                <input
+                                    type="number"
+                                    name="price"
+                                    value={lostNlistedForm.price}
+                                    onChange={changeHandler}
+                                    className="form-control"
+                                />
+                                {errors.price && <div className='text-danger'>{errors.price.message}</div>}
+                            </div>
+                        }
                         <div className="mb-3">
                             <label className="form-label">Description:</label>
                             <textarea name="description" value={lostNlistedForm.description} onChange={changeHandler} className="form-control"></textarea>
