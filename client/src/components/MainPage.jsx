@@ -10,7 +10,7 @@ const MainPage = () => {
 
   useEffect(() => {
     fetchAllPosts();
-  }); // Fetch posts when sortBy changes
+  }, [sortBy]); // Fetch posts when sortBy changes
 
   const fetchAllPosts = async () => {
     try {
@@ -19,16 +19,14 @@ const MainPage = () => {
 
       if (sortBy === "zipcode") {
         sortedPosts = sortedPosts.sort((a, b) => a.zipcode - b.zipcode);
-      } else if (sortBy === "daysAgo") {
+      } else if (sortBy === "hoursAgo") {
         sortedPosts = sortedPosts.sort((a, b) => {
-          const today = new Date();
-          const daysAgoA = Math.ceil(
-            (today - new Date(a.createdAt)) / (1000 * 3600 * 24)
-          );
-          const daysAgoB = Math.ceil(
-            (today - new Date(b.createdAt)) / (1000 * 3600 * 24)
-          );
-          return daysAgoA - daysAgoB;
+          const currentTime = new Date();
+          const postTimeA = new Date(a.createdAt);
+          const postTimeB = new Date(b.createdAt);
+          const hoursAgoA = Math.floor((currentTime - postTimeA) / (1000 * 60 * 60));
+          const hoursAgoB = Math.floor((currentTime - postTimeB) / (1000 * 60 * 60));
+          return hoursAgoA - hoursAgoB;
         });
       }
 
@@ -38,18 +36,19 @@ const MainPage = () => {
     }
   };
 
-  // Function to calculate how many days ago a post was created
-  const daysAgo = (createdAt) => {
-    const today = new Date();
-    const postDate = new Date(createdAt);
-    const timeDifference = today.getTime() - postDate.getTime();
-    const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
-    return `${daysDifference} day${daysDifference === 1 ? "" : "s"} ago`;
-  };
-
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
   };
+
+
+      // Function to calculate how many hours ago a post was created
+    const hoursAgo = (createdAt) => {
+        const currentTime = new Date();
+        const postTime = new Date(createdAt);
+        const timeDifference = currentTime.getTime() - postTime.getTime();
+        const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+        return `${hoursDifference} hour${hoursDifference !== 1 ? 's' : ''} ago`;
+    };
 
   return (
     <div className="container">
@@ -63,7 +62,7 @@ const MainPage = () => {
         <select value={sortBy} onChange={handleSortChange}>
           <option value="default">Sort By</option>
           <option value="zipcode">Zipcode</option>
-          <option value="daysAgo">Days Ago</option>
+          <option value="daysAgo">Hours Ago</option>
         </select>
       </div>
       <table className="bottom-content">
@@ -78,10 +77,13 @@ const MainPage = () => {
         <tbody>
           {posts.map((post) => (
             <tr key={post._id}>
-              <td>{post.title}</td>
+              <td>
+                {/* Link to ViewPost page with post ID as parameter */}
+                <Link to={`/view-post/${post._id}`}>{post.title}</Link>
+              </td>
               <td>{post.type}</td>
               <td>{post.zipcode}</td>
-              <td>{daysAgo(post.createdAt)}</td>
+              <td>{hoursAgo(post.createdAt)}</td>
             </tr>
           ))}
         </tbody>
