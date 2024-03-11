@@ -54,19 +54,19 @@ const NewPost = () => {
 
     return (
         <div className="container">
+            <button className="btn btn-success position-absolute top-0 end-10 m-3 border-dark rounded shadow" onClick={() => navigate('/')}>Home</button>
             <div className="row justify-content-center">
                 <div className="col-md-6">
-                    <h1 className="text-center mb-4">New Post</h1>
+                    <h1 className="text-center mb-4 border-dark rounded shadow">New Post</h1>
                     <form onSubmit={onSubmitHandler}>
                         <div className="mb-3">
                             <label className="form-label">Title:</label>
-                            <input type="text" name="title" value={lostNlistedForm.title} onChange={changeHandler} className="form-control" />
+                            <input type="text" name="title" value={lostNlistedForm.title} onChange={changeHandler} className="form-control border-dark rounded shadow" />
                             {errors.title && <div className='text-danger'>{errors.title.message}</div>}
                         </div>
-
                         <div className="mb-3">
                             <label className="form-label">Type:</label>
-                            <select name="type" value={lostNlistedForm.type} onChange={changeHandler} className="form-select">
+                            <select name="type" value={lostNlistedForm.type} onChange={changeHandler} className="form-select border-dark rounded shadow">
                                 <option value="">Select Type</option>
                                 <option value="lost">Lost</option>
                                 <option value="found">Found</option>
@@ -76,7 +76,7 @@ const NewPost = () => {
 
                         <div className="mb-3">
                             <label className="form-label">Zipcode:</label>
-                            <input type="text" name="zipcode" value={lostNlistedForm.zipcode} onChange={changeHandler} className="form-control" />
+                            <input type="text" name="zipcode" value={lostNlistedForm.zipcode} onChange={changeHandler} className="form-control border-dark rounded shadow" />
                             {errors.zipcode && <div className='text-danger'>{errors.zipcode.message}</div>}
                         </div>
                         {!isPriceDisabled &&
@@ -87,19 +87,19 @@ const NewPost = () => {
                                     name="price"
                                     value={lostNlistedForm.price}
                                     onChange={changeHandler}
-                                    className="form-control"
+                                    className="form-control border-dark rounded shadow"
                                 />
                                 {errors.price && <div className='text-danger'>{errors.price.message}</div>}
                             </div>
                         }
                         <div className="mb-3">
                             <label className="form-label">Description:</label>
-                            <textarea name="description" value={lostNlistedForm.description} onChange={changeHandler} className="form-control"></textarea>
+                            <textarea name="description" value={lostNlistedForm.description} onChange={changeHandler} className="form-control border-dark rounded shadow"></textarea>
                             {errors.description && <div className='text-danger'>{errors.description.message}</div>}
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Category:</label>
-                            <select name="category" value={lostNlistedForm.category} onChange={changeHandler} className="form-select">
+                            <select name="category" value={lostNlistedForm.category} onChange={changeHandler} className="form-select border-dark rounded shadow">
                                 <option value="">Select Category</option>
                                 <option value="electronics">Electronics</option>
                                 <option value="clothing">Clothing</option>
@@ -111,12 +111,13 @@ const NewPost = () => {
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Email:</label>
-                            <input type="email" name="email" value={lostNlistedForm.email} onChange={changeHandler} className="form-control" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" />
+                            <input type="email" name="email" value={lostNlistedForm.email} onChange={changeHandler} className="form-control border-dark rounded shadow" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" />
                             {errors.email && <div className='text-danger'>{errors.email.message}</div>}
                         </div>
-                        <div className="d-grid">
-                            <button type="submit" className="btn btn-primary">Save</button>
+                        <div className="text-center">
+                            <button type="submit" className="btn btn-primary btn-lg border-dark rounded shadow">Save</button>
                         </div>
+
                     </form>
                 </div>
             </div>
