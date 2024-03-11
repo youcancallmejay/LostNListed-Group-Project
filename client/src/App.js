@@ -4,8 +4,7 @@ import NewPost from './components/NewPost';
 
 function App() {
 
-  const [lostNListed, setLostNListed] = ([]);
-
+  
   return (
     <div className="App">
       <Routes>

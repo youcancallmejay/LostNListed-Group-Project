@@ -22,6 +22,6 @@ const PostSchema = new mongoose.Schema({
   },
   category: { type: String, required: true },
   email: { type: String, required: [true, 'Email is required'] },
-});
+}, {timestamps:true });
 
 module.exports = mongoose.model("Post", PostSchema);

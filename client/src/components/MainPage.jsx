@@ -1,94 +1,86 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import "../main.css";
-import Header from "./Header";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import Header from './Header'; // Import the Header component
+import '../main.css'; // Import your custom CSS file
+import { Link } from 'react-router-dom'; // Import Link from react-router-dom
 
 const MainPage = () => {
-  const [posts, setPosts] = useState([]);
-  const [filterZip, setFilterZip] = useState("");
-  const [uniqueZipCodes, setUniqueZipCodes] = useState([]);
+    const [posts, setPosts] = useState([]);
+    const [sortBy, setSortBy] = useState('default'); // State for sorting option
 
-  // Function to fetch all posts
-  const fetchPosts = async () => {
-    try {
-      const response = await fetch("/api/posts");
-      const data = await response.json();
-      setPosts(data);
-      extractUniqueZipCodes(data);
-    } catch (error) {
-      console.error("Error fetching posts:", error);
-    }
-  };
+    useEffect(() => {
+        fetchAllPosts();
+    }); // Fetch posts when sortBy changes
 
-  // Extract zipcodes from posts.
-  const extractUniqueZipCodes = (posts) => {
-    const uniqueCodes = [...new Set(posts.map((post) => post.zipcode))];
-    setUniqueZipCodes(uniqueCodes);
-  };
+    const fetchAllPosts = async () => {
+        try {
+            const response = await axios.get('http://localhost:8000/api/posts');
+            let sortedPosts = response.data;
 
-  // Fetch all posts when the component mounts
-  useEffect(() => {
-    fetchPosts();
-  }, [fetchPosts]);
+            if (sortBy === 'zipcode') {
+                sortedPosts = sortedPosts.sort((a, b) => a.zipcode - b.zipcode);
+            } else if (sortBy === 'daysAgo') {
+                sortedPosts = sortedPosts.sort((a, b) => {
+                    const today = new Date();
+                    const daysAgoA = Math.ceil((today - new Date(a.createdAt)) / (1000 * 3600 * 24));
+                    const daysAgoB = Math.ceil((today - new Date(b.createdAt)) / (1000 * 3600 * 24));
+                    return daysAgoA - daysAgoB;
+                });
+            }
 
-  // Function to handle zip code filter change
-  const handleFilterChange = (event) => {
-    setFilterZip(event.target.value);
-  };
+            setPosts(sortedPosts);
+        } catch (error) {
+            console.error('Error fetching posts:', error);
+        }
+    };
 
-  // Filter posts by zip code
-  const filteredPosts = posts.filter((post) =>
-    post.zipcode.toString().startsWith(filterZip)
-  );
+    // Function to calculate how many days ago a post was created
+    const daysAgo = (createdAt) => {
+        const today = new Date();
+        const postDate = new Date(createdAt);
+        const timeDifference = today.getTime() - postDate.getTime();
+        const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
+        return `${daysDifference} day${daysDifference === 1 ? '' : 's'} ago`;
+    };
 
-  // Function to calculate the number of days ago a post was created
-  const daysAgo = (date) => {
-    const today = new Date();
-    const createdAt = new Date(date);
-    const diffTime = Math.abs(today - createdAt);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
-  };
+    const handleSortChange = (event) => {
+        setSortBy(event.target.value);
+    };
 
-  return (
-    <div className="container">
-      <Header />
-      <div className="secondary">
-        <Link to="/create-post">
-          <button>Create Post</button>
-        </Link>
-        <br />
-        <select id="zip-filter" value={filterZip} onChange={handleFilterChange}>
-          <option value="">Zip Code</option>
-          {uniqueZipCodes.map((zip) => (
-            <option key={zip} value={zip}>
-              {zip}
-            </option>
-          ))}
-        </select>
-      </div>
-      <div className="bottom-content">
-        <table>
-          <thead>
-            <tr>
-              <th>Title</th>
-              <th>Zip Code</th>
-              <th>Days Ago</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredPosts.map((post) => (
-              <tr key={post._id}>
-                <td>{post.title}</td>
-                <td>{post.zipcode}</td>
-                <td>{daysAgo(post.createdAt)}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+    return (
+        <div className="container">
+            <Header /> {/* Include the Header component */}
+            <h1 className="text-center mb-4">All Listings</h1>
+            <div className='secondary'>
+                <Link to="/create-post">
+                    <button className="create-post-btn">Create Post</button> {/* Style this button as per your CSS */}
+                </Link>
+                <select value={sortBy} onChange={handleSortChange}>
+                    <option value="default">Sort By</option>
+                    <option value="zipcode">Zipcode</option>
+                    <option value="daysAgo">Days Ago</option>
+                </select>
+            </div>
+            <table className="bottom-content">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Zipcode</th>
+                        <th>Created</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {posts.map(post => (
+                        <tr key={post._id}>
+                            <td>{post.title}</td>
+                            <td>{post.zipcode}</td>
+                            <td>{daysAgo(post.createdAt)}</td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        </div>
+    );
 };
 
 export default MainPage;
