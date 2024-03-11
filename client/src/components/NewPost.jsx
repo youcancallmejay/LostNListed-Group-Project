@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Header from './Header';
 
 const NewPost = () => {
     const [lostNlistedForm, setLostNListedForm] = useState({
@@ -54,6 +55,8 @@ const NewPost = () => {
 
     return (
         <div className="container">
+            <Header />
+            <hr className="border-top border-3 border-dark" />
             <button className="btn btn-success position-absolute top-0 end-10 m-3 border-dark rounded shadow" onClick={() => navigate('/')}>Home</button>
             <div className="row justify-content-center">
                 <div className="col-md-6">
