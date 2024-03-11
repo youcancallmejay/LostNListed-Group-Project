@@ -5,7 +5,9 @@ const Header = () => {
   return (
     <div className="headerContainer">
       <div className="siteHeader">
-        <h1>LostNListed</h1>
+        <Link to="/" className="siteTitle">
+          LostNListed
+        </Link>
       </div>
       <div>
         <Link to="/posts/type/lost" className="navLinks">
