@@ -12,7 +12,7 @@ const Header = () => {
           Lost
         </Link>
         <Link to="/found" className="navLinks">
-          Lost
+          Found
         </Link>
         <Link to="/sell" className="navLinks">
           Sell
