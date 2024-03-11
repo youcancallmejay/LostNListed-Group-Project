@@ -6,6 +6,7 @@ import Header from "./Header";
 const PostsPage = () => {
   const [posts, setPosts] = useState([]);
   const { type } = useParams(); // Capture the 'type' parameter from the URL
+  const [sortBy, setSortBy] = useState("default"); // State for sorting option
 
   useEffect(() => {
     const fetchPostsByType = async () => {
@@ -13,27 +14,62 @@ const PostsPage = () => {
         const response = await axios.get(
           `http://localhost:8000/api/posts/type/${type}`
         );
-        setPosts(response.data);
+        let sortedPosts = response.data;
+
+        if (sortBy === "zipcode") {
+          sortedPosts = sortedPosts.sort((a, b) => a.zipcode - b.zipcode);
+        } else if (sortBy === "hoursAgo") {
+          sortedPosts = sortedPosts.sort((a, b) => {
+            const currentTime = new Date();
+            const postTimeA = new Date(a.createdAt);
+            const postTimeB = new Date(b.createdAt);
+            const hoursAgoA = Math.floor(
+              (currentTime - postTimeA) / (1000 * 60 * 60)
+            );
+            const hoursAgoB = Math.floor(
+              (currentTime - postTimeB) / (1000 * 60 * 60)
+            );
+            return hoursAgoA - hoursAgoB;
+          });
+        }
+
+        setPosts(sortedPosts);
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
     };
 
     fetchPostsByType();
-  }, [type]);
+  }, [type, sortBy]);
+
+  const handleSortChange = (event) => {
+    setSortBy(event.target.value);
+  };
 
   const hoursAgo = (createdAt) => {
     const currentTime = new Date();
     const postTime = new Date(createdAt);
     const timeDifference = currentTime.getTime() - postTime.getTime();
     const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
-    return `${hoursDifference} hour${hoursDifference !== 1 ? 's' : ''} ago`;
+    return `${hoursDifference} hour${hoursDifference !== 1 ? "s" : ""} ago`;
   };
 
   return (
     <div className="container">
       <Header />
       <h1 className="text-center mb-4">Recent {type} posts</h1>
+
+      <div className="secondary">
+        <Link to="/create-post">
+          <button className="create-post-btn">Create Post</button>{" "}
+          {/* Style this button as per your CSS */}
+        </Link>
+        <select value={sortBy} onChange={handleSortChange}>
+          <option value="default">Sort By</option>
+          <option value="zipcode">Zipcode</option>
+          <option value="daysAgo">Hours Ago</option>
+        </select>
+      </div>
 
       <table className="bottom-content">
         <thead>
