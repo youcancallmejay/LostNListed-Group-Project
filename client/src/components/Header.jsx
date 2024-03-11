@@ -8,13 +8,13 @@ const Header = () => {
         <h1>LostNListed</h1>
       </div>
       <div>
-        <Link to="/lost" className="navLinks">
+        <Link to="/posts/type/lost" className="navLinks">
           Lost
         </Link>
-        <Link to="/found" className="navLinks">
+        <Link to="/posts/type/found" className="navLinks">
           Found
         </Link>
-        <Link to="/sell" className="navLinks">
+        <Link to="/posts/type/sell" className="navLinks">
           Sell
         </Link>
       </div>
