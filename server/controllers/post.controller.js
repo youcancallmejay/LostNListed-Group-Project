@@ -24,11 +24,9 @@ module.exports.getPostById = (req, res) => {
 
 module.exports.getPostByType = (req, res) => {
   const postType = req.params.type; // Extract the 'type' from the URL parameter
-
-  // Query the database for posts of this type
   Post.find({ type: postType })
     .then((posts) => {
-      res.json(posts); // Send the found posts back to the client
+      res.json(posts);
     })
     .catch((err) => res.status(400).json(err));
 };
