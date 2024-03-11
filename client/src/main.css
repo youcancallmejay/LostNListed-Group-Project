@@ -1,11 +1,11 @@
 .container {
-  background-color: brown;
-  width: 100%;
-  height: 100vh;
-  margin: 0 auto;
-  border: 1px solid black;
-  display: flex;
-  flex-direction: column;
+    background-color: #964B00;
+    width: 100%;
+    height: 100vh;
+    margin: 0 auto;
+    border: 1px solid black;
+    display: flex;
+    flex-direction: column;
 }
 
 .header {
@@ -24,11 +24,16 @@
 }
 
 .bottom-content {
-  width: 50%;
-  height: 500px;
-  border: 1px solid black;
-  align-self: center;
-  margin-top: 100px;
+    width: 50%;
+    height: 500px;
+    border: 1px solid black;
+    align-self: center;
+    margin-top: 100px;
+}
+
+.disabled:disabled {
+    background-color: #6c757d !important;
+    color: #ffffff;
 }
 
 /**************
@@ -59,4 +64,5 @@ HEADER ATTRIBUTES
   box-shadow: 5px 2px 2px;
   border-radius: 5px;
   margin: 10%;
-}
+
+
