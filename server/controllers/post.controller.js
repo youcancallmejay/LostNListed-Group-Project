@@ -22,6 +22,12 @@ module.exports.getPostById = (req, res) => {
     .catch((err) => res.status(400).json(err));
 };
 
+module.exports.getPostByType = (req, res) => {
+  Post.find({ type: req.params.type })
+    .then((posts) => res.json(posts))
+    .catch((err) => res.status(400).json(err));
+};
+
 module.exports.updatePost = async (req, res) => {
   try {
     const updatedPost = await Post.findByIdAndUpdate(req.params.id, req.body, {
