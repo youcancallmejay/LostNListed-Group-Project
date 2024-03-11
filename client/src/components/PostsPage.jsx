@@ -1,7 +1,6 @@
-// PostsPage.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom"; // To access the URL parameter
+import { useParams, Link } from "react-router-dom"; // To access the URL parameter and Link component
 import Header from "./Header";
 
 const PostsPage = () => {
@@ -23,12 +22,12 @@ const PostsPage = () => {
     fetchPostsByType();
   }, [type]);
 
-  const daysAgo = (createdAt) => {
-    const today = new Date();
-    const postDate = new Date(createdAt);
-    const timeDifference = today.getTime() - postDate.getTime();
-    const daysDifference = Math.ceil(timeDifference / (1000 * 3600 * 24));
-    return `${daysDifference} day${daysDifference === 1 ? "" : "s"} ago`;
+  const hoursAgo = (createdAt) => {
+    const currentTime = new Date();
+    const postTime = new Date(createdAt);
+    const timeDifference = currentTime.getTime() - postTime.getTime();
+    const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+    return `${hoursDifference} hour${hoursDifference !== 1 ? 's' : ''} ago`;
   };
 
   return (
@@ -47,9 +46,12 @@ const PostsPage = () => {
         <tbody>
           {posts.map((post) => (
             <tr key={post._id}>
-              <td>{post.title}</td>
+              <td>
+                {/* Link to ViewPost page with post ID as parameter */}
+                <Link to={`/view-post/${post._id}`}>{post.title}</Link>
+              </td>
               <td>{post.zipcode}</td>
-              <td>{daysAgo(post.createdAt)}</td>
+              <td>{hoursAgo(post.createdAt)}</td>
             </tr>
           ))}
         </tbody>
