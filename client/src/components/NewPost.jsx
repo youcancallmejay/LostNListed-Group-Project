@@ -51,8 +51,6 @@ const NewPost = ({ lostNlistedForm, setLostNListedForm }) => {
     return (
         <div className="container">
             <Header />
-            <hr className="border-top border-3 border-dark" />
-            <button className="btn btn-success position-absolute top-0 end-10 m-3 border-dark rounded shadow" onClick={() => navigate('/')}>Home</button>
             <div className="row justify-content-center">
                 <div className="col-md-6">
                     <h1 className="text-center mb-4 border-dark rounded shadow">New Post</h1>
