@@ -6,7 +6,7 @@ import Header from "./Header";
 const ViewPost = () => {
     const [post, setPost] = useState({});
     const { id } = useParams(); // Capture the 'id' parameter from the URL
-
+    
     useEffect(() => {
         const fetchPost = async () => {
             try {
@@ -29,7 +29,6 @@ const ViewPost = () => {
         return `${hoursDifference} hour${hoursDifference !== 1 ? 's' : ''} ago`;
     };
 
-
     return (
         <div className="container">
             <Header />
@@ -43,7 +42,10 @@ const ViewPost = () => {
                 <p><strong>Email:</strong> {post.email}</p>
                 <p><strong>Created:</strong> {hoursAgo(post.createdAt)}</p>
             </div>
-            <Link to="/" className="btn btn-primary mt-3">Go Back</Link>
+            {/* Add Edit button */}
+            <Link to={`/posts/${post._id}`}><button>Edit</button></Link>
+            {/* Add Go Back button */}
+            <Link to="/" className="btn btn-primary mt-3 ms-3">Go Back</Link>
         </div>
     );
 };
