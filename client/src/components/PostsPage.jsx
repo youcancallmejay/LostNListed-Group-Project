@@ -9,30 +9,45 @@ const PostsPage = () => {
   const [sortBy, setSortBy] = useState("default"); // State for sorting option
 
   useEffect(() => {
+    console.log("Posts state updated:", posts);
+
     const fetchPostsByType = async () => {
       try {
         const response = await axios.get(
           `http://localhost:8000/api/posts/type/${type}`
         );
+        console.log("Initial data:", response.data);
+
         let sortedPosts = response.data;
 
+        console.log(sortBy);
         if (sortBy === "zipcode") {
           sortedPosts = sortedPosts.sort((a, b) => a.zipcode - b.zipcode);
+          console.log("Sorted by zipcode:", sortedPosts);
         } else if (sortBy === "hoursAgo") {
           sortedPosts = sortedPosts.sort((a, b) => {
             const currentTime = new Date();
             const postTimeA = new Date(a.createdAt);
             const postTimeB = new Date(b.createdAt);
+            console.log(
+              `Post A createdAt: ${a.createdAt}, Post B createdAt: ${b.createdAt}`
+            );
+
             const hoursAgoA = Math.floor(
               (currentTime - postTimeA) / (1000 * 60 * 60)
             );
             const hoursAgoB = Math.floor(
               (currentTime - postTimeB) / (1000 * 60 * 60)
             );
+            console.log(
+              `Post A hours ago: ${hoursAgoA}, Post B hours ago: ${hoursAgoB}`
+            );
+
             return hoursAgoA - hoursAgoB;
           });
+          console.log("Sorted by hoursAgo:", sortedPosts);
         }
-
+        console.log("Posts set to state:", sortedPosts);
         setPosts(sortedPosts);
       } catch (error) {
         console.error("Error fetching posts:", error);
@@ -67,7 +82,7 @@ const PostsPage = () => {
         <select value={sortBy} onChange={handleSortChange}>
           <option value="default">Sort By</option>
           <option value="zipcode">Zipcode</option>
-          <option value="daysAgo">Hours Ago</option>
+          <option value="hoursAgo">Date Posted</option>
         </select>
       </div>
 
