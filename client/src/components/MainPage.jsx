@@ -24,8 +24,12 @@ const MainPage = () => {
           const currentTime = new Date();
           const postTimeA = new Date(a.createdAt);
           const postTimeB = new Date(b.createdAt);
-          const hoursAgoA = Math.floor((currentTime - postTimeA) / (1000 * 60 * 60));
-          const hoursAgoB = Math.floor((currentTime - postTimeB) / (1000 * 60 * 60));
+          const hoursAgoA = Math.floor(
+            (currentTime - postTimeA) / (1000 * 60 * 60)
+          );
+          const hoursAgoB = Math.floor(
+            (currentTime - postTimeB) / (1000 * 60 * 60)
+          );
           return hoursAgoA - hoursAgoB;
         });
       }
@@ -40,32 +44,31 @@ const MainPage = () => {
     setSortBy(event.target.value);
   };
 
-
-      // Function to calculate how many hours ago a post was created
-    const hoursAgo = (createdAt) => {
-        const currentTime = new Date();
-        const postTime = new Date(createdAt);
-        const timeDifference = currentTime.getTime() - postTime.getTime();
-        const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
-        return `${hoursDifference} hour${hoursDifference !== 1 ? 's' : ''} ago`;
-    };
+  // Function to calculate how many hours ago a post was created
+  const hoursAgo = (createdAt) => {
+    const currentTime = new Date();
+    const postTime = new Date(createdAt);
+    const timeDifference = currentTime.getTime() - postTime.getTime();
+    const hoursDifference = Math.floor(timeDifference / (1000 * 60 * 60));
+    return `${hoursDifference} hour${hoursDifference !== 1 ? "s" : ""} ago`;
+  };
 
   return (
     <div className="container">
       <Header /> {/* Include the Header component */}
-      <h1 className="text-center mb-4">All Listings</h1>
-      <div className="secondary">
+      <div className="subheaderContainer">
         <Link to="/create-post">
           <button className="create-post-btn">Create Post</button>{" "}
           {/* Style this button as per your CSS */}
         </Link>
+        <h1>All Listings</h1>
         <select value={sortBy} onChange={handleSortChange}>
           <option value="default">Sort By</option>
           <option value="zipcode">Zipcode</option>
           <option value="daysAgo">Hours Ago</option>
         </select>
       </div>
-      <table className="bottom-content">
+      <table className="tableContainer">
         <thead>
           <tr>
             <th>Title</th>
