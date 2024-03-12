@@ -3,7 +3,11 @@ import { Route, Routes } from "react-router-dom";
 import MainPage from "./components/MainPage";
 import NewPost from "./components/NewPost";
 import PostsPage from "./components/PostsPage";
+<<<<<<< HEAD
 import EditPost from "./components/EditPost";
+=======
+import ViewPost from "./components/ViewPost";
+>>>>>>> origin/main
 
 function App() {
 
@@ -24,6 +28,7 @@ function App() {
         <Route path="/" element={<MainPage />} />
         <Route path="/create-post" element={<NewPost lostNlistedForm={lostNlistedForm} setLostNListedForm={setLostNListedForm}/>} />
         <Route path="/posts/type/:type" element={<PostsPage />} />{" "}
+        <Route path="/view-post/:id" element={<ViewPost/>}/>
       </Routes>
     </div>
   );
