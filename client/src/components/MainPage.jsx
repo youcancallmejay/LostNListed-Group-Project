@@ -65,7 +65,7 @@ const MainPage = () => {
         <select value={sortBy} onChange={handleSortChange}>
           <option value="default">Sort By</option>
           <option value="zipcode">Zipcode</option>
-          <option value="daysAgo">Hours Ago</option>
+          <option value="hoursAgo">Date Posted</option>
         </select>
       </div>
       <table className="tableContainer">
