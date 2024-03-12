@@ -57,13 +57,13 @@ const PostsPage = () => {
   return (
     <div className="container">
       <Header />
-      <h1 className="text-center mb-4">Recent {type} posts</h1>
 
-      <div className="secondary">
+      <div className="subheaderContainer">
         <Link to="/create-post">
           <button className="create-post-btn">Create Post</button>{" "}
           {/* Style this button as per your CSS */}
         </Link>
+        <h1>Recent {type} posts</h1>
         <select value={sortBy} onChange={handleSortChange}>
           <option value="default">Sort By</option>
           <option value="zipcode">Zipcode</option>
@@ -71,8 +71,8 @@ const PostsPage = () => {
         </select>
       </div>
 
-      <table className="bottom-content">
-        <thead>
+      <table className="tableContainer">
+        <thead className="tableRowHeading">
           <tr>
             <th>Title</th>
             <th>Zipcode</th>
