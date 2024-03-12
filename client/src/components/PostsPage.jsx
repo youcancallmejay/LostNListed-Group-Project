@@ -1,7 +1,7 @@
 // PostsPage.js
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom"; // To access the URL parameter
+import { Link, useParams } from "react-router-dom"; // To access the URL parameter
 import Header from "./Header";
 
 const PostsPage = () => {
@@ -14,7 +14,9 @@ const PostsPage = () => {
         const response = await axios.get(
           `http://localhost:8000/api/posts/type/${type}`
         );
-        setPosts(response.data);
+        // Sort posts by createdAt in descending order
+        const sortPostList = response.data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        setPosts(sortPostList);
       } catch (error) {
         console.error("Error fetching posts:", error);
       }
@@ -42,7 +44,7 @@ const PostsPage = () => {
             <th>Title</th>
             <th>Zipcode</th>
             <th>Created</th>
-          </tr>
+                      </tr>
         </thead>
         <tbody>
           {posts.map((post) => (
@@ -50,7 +52,7 @@ const PostsPage = () => {
               <td>{post.title}</td>
               <td>{post.zipcode}</td>
               <td>{daysAgo(post.createdAt)}</td>
-            </tr>
+                          </tr>
           ))}
         </tbody>
       </table>
