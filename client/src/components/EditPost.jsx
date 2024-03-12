@@ -1,16 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './Header';
 
-const NewPost = ({ lostNlistedForm, setLostNListedForm }) => {
+const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
 
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
     const isPriceDisabled = lostNlistedForm.type !== 'sell';
+    const { id } = useParams();
 
+    useEffect(() => {
+        axios.get(`http://localhost:8000/api/posts/id/${id}`)
+            .then(res => {
+                const postData = res.data;
+                setLostNListedForm({
+                    title: postData.title,
+                    type: postData.type,
+                    zipcode: postData.zipcode,
+                    price: postData.price,
+                    description: postData.description,
+                    category: postData.category,
+                    email: postData.email
+                });
+            })
+            .catch(err => {
+                console.log(err.response.data.errors);
+                setErrors(err.response.data.errors);
+            });
+    }, [id]);
+
+    // Function to handle form changes
     const changeHandler = (e) => {
         const { name, value } = e.target;
         let errorMessage = '';
@@ -25,7 +47,7 @@ const NewPost = ({ lostNlistedForm, setLostNListedForm }) => {
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8000/api/posts', lostNlistedForm)
+        axios.put(`http://localhost:8000/api/posts/${id}`, lostNlistedForm)
             .then(res => {
                 console.log(res.data);
                 setLostNListedForm({
@@ -44,16 +66,13 @@ const NewPost = ({ lostNlistedForm, setLostNListedForm }) => {
                 setErrors(err.response.data.errors);
             });
     };
-        // Render loading indicator if lostNlistedForm is not initialized yet
-    if (!lostNlistedForm) {
-        return <div>Loading...</div>;
-    }
+
     return (
         <div className="container">
             <Header />
             <div className="row justify-content-center">
                 <div className="col-md-6">
-                    <h1 className="text-center mb-4 border-dark rounded shadow">New Post</h1>
+                    <h1 className="text-center mb-4 border-dark rounded shadow">Edit Post</h1>
                     <form onSubmit={onSubmitHandler}>
                         <div className="mb-3">
                             <label className="form-label">Title:</label>
@@ -69,7 +88,6 @@ const NewPost = ({ lostNlistedForm, setLostNListedForm }) => {
                                 <option value="sell">Sell</option>
                             </select>
                         </div>
-
                         <div className="mb-3">
                             <label className="form-label">Zipcode:</label>
                             <input type="text" name="zipcode" value={lostNlistedForm.zipcode} onChange={changeHandler} className="form-control border-dark rounded shadow" />
@@ -112,9 +130,8 @@ const NewPost = ({ lostNlistedForm, setLostNListedForm }) => {
                             {errors.email && <div className='text-danger'>{errors.email.message}</div>}
                         </div>
                         <div className="text-center">
-                            <button type="submit" className="btn btn-primary btn-lg border-dark rounded shadow">Save</button>
+                            <button type="submit" className="btn btn-primary btn-lg border-dark rounded shadow">Save Changes</button>
                         </div>
-
                     </form>
                 </div>
             </div>
@@ -122,4 +139,4 @@ const NewPost = ({ lostNlistedForm, setLostNListedForm }) => {
     );
 };
 
-export default NewPost;
+export default EditPost;
