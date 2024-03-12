@@ -77,7 +77,7 @@ const PostsPage = () => {
             <th>Title</th>
             <th>Zipcode</th>
             <th>Created</th>
-                      </tr>
+          </tr>
         </thead>
         <tbody>
           {posts.map((post) => (
