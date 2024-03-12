@@ -8,11 +8,10 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
 
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
-    
+
     const isPriceDisabled = lostNlistedForm.type !== 'sell';
     const { id } = useParams();
 
-    // Function to fetch post data and populate form fields
     useEffect(() => {
         axios.get(`http://localhost:8000/api/posts/id/${id}`)
             .then(res => {
@@ -28,8 +27,8 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
                 });
             })
             .catch(err => {
-                console.log(err);
-                // Handle error
+                console.log(err.response.data.errors);
+                setErrors(err.response.data.errors);
             });
     }, [id]);
 
@@ -46,7 +45,6 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
         }
     };
 
-    // Function to handle form submission
     const onSubmitHandler = (e) => {
         e.preventDefault();
         axios.put(`http://localhost:8000/api/posts/${id}`, lostNlistedForm)
@@ -72,13 +70,10 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
     return (
         <div className="container">
             <Header />
-            <hr className="border-top border-3 border-dark" />
-            <button className="btn btn-success position-absolute top-0 end-10 m-3 border-dark rounded shadow" onClick={() => navigate('/')}>Home</button>
             <div className="row justify-content-center">
                 <div className="col-md-6">
                     <h1 className="text-center mb-4 border-dark rounded shadow">Edit Post</h1>
                     <form onSubmit={onSubmitHandler}>
-                        {/* Input fields for editing post details */}
                         <div className="mb-3">
                             <label className="form-label">Title:</label>
                             <input type="text" name="title" value={lostNlistedForm.title} onChange={changeHandler} className="form-control border-dark rounded shadow" />
@@ -134,7 +129,6 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
                             <input type="email" name="email" value={lostNlistedForm.email} onChange={changeHandler} className="form-control border-dark rounded shadow" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" />
                             {errors.email && <div className='text-danger'>{errors.email.message}</div>}
                         </div>
-                        {/* Button to submit the edited post */}
                         <div className="text-center">
                             <button type="submit" className="btn btn-primary btn-lg border-dark rounded shadow">Save Changes</button>
                         </div>
