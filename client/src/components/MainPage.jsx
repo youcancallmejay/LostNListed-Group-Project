@@ -10,7 +10,7 @@ const MainPage = () => {
 
   useEffect(() => {
     fetchAllPosts();
-  }, [sortBy]); // Fetch posts when sortBy changes
+  }); // Fetch posts when sortBy changes
 
   const fetchAllPosts = async () => {
     try {
