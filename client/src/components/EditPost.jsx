@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './Header';
+import editPostImage from './images/editPostImage.jpg';
 
 const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
 
@@ -96,12 +97,17 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
             });
     };
 
+    const getBackgroundImage = () => {
+        return `url(${editPostImage})`
+    }
+
     return (
-        <div className="container">
+        <body style={{ backgroundImage: getBackgroundImage()}}>
+            <div className="container">
             <Header />
             <div className="row justify-content-center">
                 <div className="col-md-6">
-                    <h1 className="text-center mb-4 border-dark rounded shadow">Edit Post</h1>
+                    <h1 className="text-center mb-4 border-dark rounded p-5 shadow-lg">Edit Post</h1>
                     <form onSubmit={onSubmitHandler}>
                         <div className="mb-3">
                             <label className="form-label">Title:</label>
@@ -110,7 +116,7 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Type:</label>
-                            <select name="type" value={lostNlistedForm.type} onChange={changeHandler} className="form-select border-dark rounded shadow">
+                            <select name="type" value={lostNlistedForm.type} onChange={changeHandler} className="form-select border-dark rounded-lg shadow-lg">
                                 <option value="">Select Type</option>
                                 <option value="lost">Lost</option>
                                 <option value="found">Found</option>
@@ -120,7 +126,7 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Zipcode:</label>
-                            <input type="text" name="zipcode" value={lostNlistedForm.zipcode} onChange={changeHandler} className="form-control border-dark rounded shadow" />
+                            <input type="text" name="zipcode" value={lostNlistedForm.zipcode} onChange={changeHandler} className="form-control border-dark rounded-lg shadow-lg" />
                             {errors.zipcode && <div className='text-danger'>{errors.zipcode.message}</div>}
                         </div>
                         {!isPriceDisabled &&
@@ -131,19 +137,19 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
                                     name="price"
                                     value={lostNlistedForm.price}
                                     onChange={changeHandler}
-                                    className="form-control border-dark rounded shadow"
+                                    className="form-control border-dark rounded-lg shadow-lg"
                                 />
                                 {errors.price && <div className='text-danger'>{errors.price.message}</div>}
                             </div>
                         }
                         <div className="mb-3">
                             <label className="form-label">Description:</label>
-                            <textarea name="description" value={lostNlistedForm.description} onChange={changeHandler} className="form-control border-dark rounded shadow"></textarea>
+                            <textarea name="description" value={lostNlistedForm.description} onChange={changeHandler} className="form-control border-dark rounded-lg shadow-lg"></textarea>
                             {errors.description && <div className='text-danger'>{errors.description.message}</div>}
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Category:</label>
-                            <select name="category" value={lostNlistedForm.category} onChange={changeHandler} className="form-select border-dark rounded shadow">
+                            <select name="category" value={lostNlistedForm.category} onChange={changeHandler} className="form-select border-dark rounded-lg shadow-lg">
                                 <option value="">Select Category</option>
                                 <option value="electronics">Electronics</option>
                                 <option value="clothing">Clothing</option>
@@ -157,7 +163,7 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Email:</label>
-                            <input type="email" name="email" value={lostNlistedForm.email} onChange={changeHandler} className="form-control border-dark rounded shadow" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" />
+                            <input type="email" name="email" value={lostNlistedForm.email} onChange={changeHandler} className="form-control border-dark rounded-lg shadow-lg" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}" />
                             {errors.email && <div className='text-danger'>{errors.email.message}</div>}
                         </div>
                         <div className="text-center">
@@ -167,6 +173,8 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
                 </div>
             </div>
         </div>
+        </body>
+        
     );
 };
 

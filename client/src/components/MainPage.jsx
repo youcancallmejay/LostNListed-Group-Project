@@ -58,6 +58,21 @@ const MainPage = () => {
     return `url(${mainImage})`;
   }
 
+  const getTypeStyle = (type) => {
+    switch (type) {
+      case "lost":
+        return { color: "#ff0000" }; // Custom red color for "lost"
+      case "sell":
+        return { color: "#0000ff" }; // Custom blue color for "sell"
+      case "found":
+        return { color: "#00ff00" }; // Custom green color for "found"
+      default:
+        return {}; // Default style for other types
+    }
+  };
+  
+  
+
   return (
     <body style={{ backgroundImage: getBackgroundImage()}}>
       <div className="container" style={{ backgroundImage: getBackgroundImage()}}>
@@ -73,9 +88,10 @@ const MainPage = () => {
           <option value="zipcode">Zipcode</option>
           <option value="hoursAgo">Date Posted</option>
         </select>
-      </div>
-      <table className="tableContainer">
-        <thead>
+      </div >
+      <div className="table-responsive">
+      <table className="table-striped">
+        <thead >
           <tr>
             <th>Title</th>
             <th>Type</th>
@@ -84,13 +100,13 @@ const MainPage = () => {
           </tr>
         </thead>
         <tbody>
-          {posts.map((post) => (
-            <tr key={post._id}>
+          {posts.map((post, index) => (
+            <tr key={post._id} >
               <td>
                 {/* Link to ViewPost page with post ID as parameter */}
-                <Link to={`/view-post/${post._id}`}>{post.title}</Link>
+                <Link to={`/view-post/${post._id}`} >{post.title}</Link>
               </td>
-              <td>{post.type}</td>
+              <td style={getTypeStyle(post.type)}>{post.type}</td>
               <td>{post.zipcode}</td>
               <td>{hoursAgo(post.createdAt)}</td>
             </tr>
@@ -98,8 +114,8 @@ const MainPage = () => {
         </tbody>
       </table>
     </div>
+      </div>
     </body>
-    
   );
 };
 

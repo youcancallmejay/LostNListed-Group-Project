@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from './Header';
+import newPostImage from './images/newPostImage.jpg';
 
 const NewPost = ({ lostNlistedForm, setLostNListedForm }) => {
 
@@ -48,12 +49,17 @@ const NewPost = ({ lostNlistedForm, setLostNListedForm }) => {
     if (!lostNlistedForm) {
         return <div>Loading...</div>;
     }
+
+    const getBackgroundImage = () => {
+        return `url(${newPostImage})`;
+    }
     return (
-        <div className="container">
+        <body style={{ backgroundImage: getBackgroundImage()}}>
+            <div className="container">
             <Header />
             <div className="row justify-content-center">
                 <div className="col-md-6">
-                    <h1 className="text-center mb-4 border-dark rounded shadow">New Post</h1>
+                    <h1 className="text-center mb-4 border-dark rounded p-5 shadow-lg">New Post</h1>
                     <form onSubmit={onSubmitHandler}>
                         <div className="mb-3">
                             <label className="form-label">Title:</label>
@@ -62,7 +68,7 @@ const NewPost = ({ lostNlistedForm, setLostNListedForm }) => {
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Type:</label>
-                            <select name="type" value={lostNlistedForm.type} onChange={changeHandler} className="form-select border-dark rounded shadow">
+                            <select name="type" value={lostNlistedForm.type} onChange={changeHandler} className="form-select border-dark rounded-lg shadow-lg">
                                 <option value="">Select Type</option>
                                 <option value="lost">Lost</option>
                                 <option value="found">Found</option>
@@ -119,6 +125,8 @@ const NewPost = ({ lostNlistedForm, setLostNListedForm }) => {
                 </div>
             </div>
         </div>
+        </body>
+        
     );
 };
 
