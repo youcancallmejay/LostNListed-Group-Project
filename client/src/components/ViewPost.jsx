@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Header from "./Header";
+import viewPostImage from './images/viewPostImage.jpg';
 
 const ViewPost = () => {
   const [post, setPost] = useState({});
@@ -43,8 +44,13 @@ const ViewPost = () => {
       .catch((err) => console.error("Error deleting post:", err));
   };
 
+  const getBackgroundImage = () => {
+    return `url(${viewPostImage})`;
+  }
+
   return (
-    <div className="container">
+    <body style={{ backgroundImage: getBackgroundImage()}}>
+      <div className="container">
       <Header />
       <div className="mt-4">
         <h1>{post.title}</h1>
@@ -70,16 +76,22 @@ const ViewPost = () => {
           <strong>Created:</strong> {hoursAgo(post.createdAt)}
         </p>
       </div>
-      {/* Add Edit button */}
-      <Link to={`/posts/${post._id}`}>
-        <button>Edit</button>
-      </Link>
-      {/* Add Go Back button */}
-      <Link to="/" className="btn btn-primary mt-3 ms-3">
+      
+      <div className="mt-4">
+        {/* Add Go Back button */}
+        <Link to="/" className="btn btn-primary btn-lg border-dark rounded shadow me-2">
         Go Back
       </Link>
-      <button onClick={handleDelete}>Delete</button>
+        {/* Add Edit button */}
+      <Link to={`/posts/${post._id}`}>
+        <button className="btn btn-warning btn-lg border-dark rounded shadow me-2">Edit</button>
+      </Link>
+      <button className="btn btn-danger btn-lg border-dark rounded shadow me-2" onClick={handleDelete}>Delete</button>
+      </div>
+      
     </div>
+    </body>
+    
   );
 };
 

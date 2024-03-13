@@ -1,13 +1,18 @@
 .container {
   /* background-color: #964b00; */
-  background-color: lightskyblue;
+  background-color: burlywood;
   width: 100%;
-  height: 100vh;
+  height: 50vh;
   margin: 0 auto;
   border: 1px solid black;
   display: flex;
   flex-direction: column;
 }
+
+body {
+  font-family: monospace;
+}
+
 
 .header {
   background-color: #355e3b;
@@ -40,7 +45,7 @@ TABLE ATTRIBUTES
   margin-top: 1%;
   margin-left: auto;
   margin-right: auto;
-  /* border: 1px solid white; */
+  border: 1px solid white;
 }
 
 thead th {
@@ -58,6 +63,31 @@ td a {
   align-self: center;
   margin-top: 100px;
   color: black;
+}
+
+.tableContainer {
+  padding: 10px 20px;
+  color: white;
+  align-items: center;
+  margin-top: 1%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.table-striped td,
+.table-striped th {
+  padding: 10px 0;
+}
+
+.table-striped tbody tr:nth-child(odd) {
+  background-color: rgba(200, 103, 6, 0.5); /* Semi-transparent overlay color for odd rows */
+  background-image: url('../src/components/images/mainPageTable.jpg');
+}
+
+/* Override the font family for table cells */
+.table-striped td,
+.table-striped th {
+  font-family: monospace;
 }
 
 /**************
@@ -112,12 +142,4 @@ HEADER ATTRIBUTES
   align-items: center;
   align-content: center;
   margin: auto;
-}
-
-.custom-table tbody tr:nth-child(odd) {
-  background-color: rgba(150, 75, 0, 0.5); /* Semi-transparent overlay color for odd rows */
-}
-
-.custom-table tbody tr:nth-child(even) {
-  background-color: rgba(124, 62, 0, 0.5); /* Semi-transparent overlay color for even rows */
 }
