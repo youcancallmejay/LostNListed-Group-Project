@@ -30,7 +30,7 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
                 console.log(err.response.data.errors);
                 setErrors(err.response.data.errors);
             });
-    }, [id]);
+    }, [id, setLostNListedForm]);
 
     // Function to handle form changes
     const changeHandler = (e) => {
@@ -47,6 +47,35 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
 
     const onSubmitHandler = (e) => {
         e.preventDefault();
+
+        // Validate form fields
+        let validationErrors = {};
+        if (!lostNlistedForm.title.trim()) {
+            validationErrors.title = { message: 'Title is required' };
+        }
+        if (!lostNlistedForm.type) {
+            validationErrors.type = { message: 'Type is required' };
+        }
+        if (!lostNlistedForm.zipcode || isNaN(lostNlistedForm.zipcode)) {
+            validationErrors.zipcode = { message: 'Please enter a valid zipcode' };
+        }
+        if (!lostNlistedForm.description.trim()) {
+            validationErrors.description = { message: 'Description is required' };
+        }
+        if (!lostNlistedForm.category) {
+            validationErrors.category = { message: 'Category is required' };
+        }
+        if (!lostNlistedForm.email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(lostNlistedForm.email)) {
+            validationErrors.email = { message: 'Please enter a valid email address' };
+        }
+
+        // If there are validation errors, set them and prevent form submission
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+
+        // If there are no validation errors, submit the form
         axios.put(`http://localhost:8000/api/posts/${id}`, lostNlistedForm)
             .then(res => {
                 console.log(res.data);
@@ -87,6 +116,7 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
                                 <option value="found">Found</option>
                                 <option value="sell">Sell</option>
                             </select>
+                            {errors.type && <div className='text-danger'>{errors.type.message}</div>}
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Zipcode:</label>
@@ -123,6 +153,7 @@ const EditPost = ({ lostNlistedForm, setLostNListedForm }) => {
                                 <option value="Toys">Outdoors</option>
                                 <option value="Toys">Miscellaneous</option>
                             </select>
+                            {errors.category && <div className='text-danger'>{errors.category.message}</div>}
                         </div>
                         <div className="mb-3">
                             <label className="form-label">Email:</label>
