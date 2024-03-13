@@ -3,6 +3,7 @@ import axios from "axios";
 import Header from "./Header"; // Import the Header component
 import "../main.css"; // Import your custom CSS file
 import { Link } from "react-router-dom"; // Import Link from react-router-dom
+import mainImage from "./images/stonegray.jpg";
 
 const MainPage = () => {
   const [posts, setPosts] = useState([]);
@@ -53,8 +54,13 @@ const MainPage = () => {
     return `${hoursDifference} hour${hoursDifference !== 1 ? "s" : ""} ago`;
   };
 
+  const getBackgroundImage = () => {
+    return `url(${mainImage})`;
+  }
+
   return (
-    <div className="container">
+    <body style={{ backgroundImage: getBackgroundImage()}}>
+      <div className="container" style={{ backgroundImage: getBackgroundImage()}}>
       <Header /> {/* Include the Header component */}
       <div className="subheaderContainer">
         <Link to="/create-post">
@@ -92,6 +98,8 @@ const MainPage = () => {
         </tbody>
       </table>
     </div>
+    </body>
+    
   );
 };
 

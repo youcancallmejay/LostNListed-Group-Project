@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams, Link } from "react-router-dom"; // To access the URL parameter and Link component
 import Header from "./Header";
+import lostImage from "./images/blur.jpg";
+import sellImage from "./images/blur1.jpg";
+import foundImage from "./images/blur3.jpg";
+
 
 const PostsPage = () => {
   const [posts, setPosts] = useState([]);
@@ -57,6 +61,20 @@ const PostsPage = () => {
     fetchPostsByType();
   }, [type, sortBy]);
 
+  const getBackgroundImage = () => {
+    switch (type) {
+      case "lost":
+        return `url(${lostImage})`;
+      case "found":
+        return `url(${foundImage})`;
+      case "sell":
+        return `url(${sellImage})`;
+      default:
+        return `url(${sellImage})`;
+    }
+  };
+  
+
   const handleSortChange = (event) => {
     setSortBy(event.target.value);
   };
@@ -70,10 +88,9 @@ const PostsPage = () => {
   };
 
   return (
-    <div className="container">
-      <Header />
-
-      <div className="subheaderContainer">
+    <body style={{ backgroundImage: getBackgroundImage() }}>
+      <div className="container" style={{ backgroundImage: getBackgroundImage()}}>
+      <Header /> <div className="subheaderContainer" >
         <Link to="/create-post">
           <button className="create-post-btn">Create Post</button>{" "}
           {/* Style this button as per your CSS */}
@@ -86,7 +103,7 @@ const PostsPage = () => {
         </select>
       </div>
 
-      <table className="tableContainer">
+      <table className="tableContainer table table-striped custom-table">
         <thead className="tableRowHeading">
           <tr>
             <th>Title</th>
@@ -108,6 +125,8 @@ const PostsPage = () => {
         </tbody>
       </table>
     </div>
+    </body>
+    
   );
 };
 
